@@ -1,0 +1,9 @@
+{
+  "dependencies": {
+    "director": "1.2.0",
+    "coffeeify": "~0.5.1",
+    "browserify": "~2.29.0",
+    "jqueryify": "~2.0.0",
+    "hamlify": "0.0.3"
+  }
+}
