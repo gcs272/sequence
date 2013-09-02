@@ -20,6 +20,7 @@ class GameController
   start: ->
     @guessView = new GuessView(@el.find('.word'), @)
     @guessView.render()
+    @el.find('input').focus()
 
     @lettersView = new LettersView(@el.find('.letters'), @)
     @newSequence()
