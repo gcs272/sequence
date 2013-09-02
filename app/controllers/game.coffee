@@ -1,6 +1,7 @@
-GuessView = require '../views/guess.coffee'
-LettersView = require '../views/letters.coffee'
-
+GuessView =     require '../views/guess.coffee'
+LettersView =   require '../views/letters.coffee'
+TimerView =     require '../views/timer.coffee'
+ResultsView =   require '../views/results.coffee'
 
 class GameController
   constructor: (@el) ->
@@ -23,12 +24,29 @@ class GameController
     @lettersView = new LettersView(@el.find('.letters'), @)
     @newSequence()
 
+    @clock = 60
+    @elapsed = 0
+    @clockInterval = setInterval @tick, 1000
+    @timerView = new TimerView(@el.find('.timer'))
+    @timerView.render(@clock)
+
+  tick: =>
+    @clock -= 1
+    @elapsed += 1
+
+    if @clock <= 0
+      @destroy()
+      @render()
+      @gameOver()
+
+    @timerView.render(@clock)
+
   newSequence: ->
     @sequence = @sequences[Math.floor(Math.random() * @sequences.length)]
     @lettersView.render(@sequence)
 
   isSolution: (word) ->
-    if not word in @words
+    if word not in @words
       return false
 
     for char in @sequence
@@ -40,16 +58,24 @@ class GameController
 
   guess: (word) ->
     if @isSolution(word)
-      console.log 'solved!'
+      @score(word.length)
     else
-      console.log 'nope!'
+      @score(-2)
     @newSequence()
+
+  score: (update) ->
+    @clock += update
+    @timerView.render(@clock)
 
   render: ->
     template = require '../templates/game/layout.haml'
     @el.html(template())
 
   destroy: ->
-    console.log 'destroying game'
+    clearInterval(@clockInterval)
+
+  gameOver: ->
+    @resultsView = new ResultsView(@el.find('.timer'))
+    @resultsView.render(@elapsed)
 
 module.exports = GameController
