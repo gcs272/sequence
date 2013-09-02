@@ -1,16 +1,16 @@
-Words = require('../models/assets.coffee').words
-Sequences = require('../models/assets.coffee').sequences
-
 class GameController
   constructor: (@el) ->
-    @initialize()
- 
-  initialize: ->
-    new Words().load().done (words) =>
-      @words = words.list
-      new Sequences().load().done (sequences) =>
-        @sequences = sequences.list
-        @start()
+    @loadAssets().done =>
+      @start()
+
+  loadAssets: ->
+    deferred = $.Deferred()
+    $.get('/assets/words.json').done (words) =>
+      @words = words
+      $.get('/assets/sequences.json').done (sequences) =>
+        @sequences = sequences
+        deferred.resolve()
+    deferred
 
   start: ->
     debugger
