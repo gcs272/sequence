@@ -1,3 +1,7 @@
+GuessView = require '../views/guess.coffee'
+LettersView = require '../views/letters.coffee'
+
+
 class GameController
   constructor: (@el) ->
     @loadAssets().done =>
@@ -13,7 +17,33 @@ class GameController
     deferred
 
   start: ->
-    debugger
+    @guessView = new GuessView(@el.find('.word'), @)
+    @guessView.render()
+
+    @lettersView = new LettersView(@el.find('.letters'), @)
+    @newSequence()
+
+  newSequence: ->
+    @sequence = @sequences[Math.floor(Math.random() * @sequences.length)]
+    @lettersView.render(@sequence)
+
+  isSolution: (word) ->
+    if not word in @words
+      return false
+
+    for char in @sequence
+      if char not in word
+        return false
+      word = word[word.indexOf(char)..].toString()
+
+    true
+
+  guess: (word) ->
+    if @isSolution(word)
+      console.log 'solved!'
+    else
+      console.log 'nope!'
+    @newSequence()
 
   render: ->
     template = require '../templates/game/layout.haml'
