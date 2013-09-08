@@ -1,6 +1,7 @@
 GuessView =     require '../views/guess.coffee'
 LettersView =   require '../views/letters.coffee'
 TimerView =     require '../views/timer.coffee'
+ResultView =    require '../views/result.coffee'
 ResultsView =   require '../views/results.coffee'
 
 class GameController
@@ -21,6 +22,8 @@ class GameController
     @guessView = new GuessView(@el.find('.word'), @)
     @guessView.render()
     @el.find('input').focus()
+
+    @resultView = new ResultView(@el.find('.result'))
 
     @lettersView = new LettersView(@el.find('.letters'), @)
     @newSequence()
@@ -60,8 +63,10 @@ class GameController
   guess: (word) ->
     if @isSolution(word)
       @score(word.length)
+      @resultView.render(word, true)
     else
       @score(-2)
+      @resultView.render(word, false)
     @newSequence()
 
   score: (update) ->
