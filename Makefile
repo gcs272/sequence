@@ -1,7 +1,8 @@
 TEST_FILES=`find test -type f -name '*.coffee'`
 
 watch:
-	watchify -v -t coffeeify -t hamlify app/app.coffee -o public.app.js
+	watchify -v -t coffeeify -t hamlify app/app.coffee -o public/app.js & \
+	cd public && python -m SimpleHTTPServer
 
 deploy:
 	make test && \

@@ -2,6 +2,7 @@ class LettersView
   constructor: (@el, @parent) ->
   
   render: (sequence) ->
+    console.log 'rendering ' + sequence
     template = require '../templates/game/letters.haml'
     @el.html template({sequence: sequence})
     @el.find('.letter').animate({'opacity': 1.0}, 250)

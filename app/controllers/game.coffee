@@ -1,3 +1,5 @@
+Game = require '../game.coffee'
+
 GuessView =     require '../views/guess.coffee'
 LettersView =   require '../views/letters.coffee'
 TimerView =     require '../views/timer.coffee'
@@ -19,69 +21,49 @@ class GameController
     deferred
 
   start: ->
+    @game = new Game @words, @sequences
+
     @guessView = new GuessView(@el.find('.word'), @)
     @guessView.render()
     @el.find('input').focus()
 
     @resultView = new ResultView(@el.find('.result'))
-
     @lettersView = new LettersView(@el.find('.letters'), @)
-    @newSequence()
-
-    @clock = 60
-    @elapsed = 0
-    @clockInterval = setInterval @tick, 1000
     @timerView = new TimerView(@el.find('.timer'))
-    @timerView.render(@clock)
 
-  tick: =>
-    @clock -= 1
-    @elapsed += 1
+    @game.on 'tick', =>
+      @timerView.render(@game.clock)
 
-    if @clock <= 0
+    @game.on 'end', =>
       @destroy()
       @render()
       @gameOver()
 
-    @timerView.render(@clock)
+    @game.on 'sequence-start', (sequence) =>
+      @timerView.render(@game.clock)
+      @lettersView.render sequence
 
-  newSequence: ->
-    @sequence = @sequences[Math.floor(Math.random() * @sequences.length)]
-    @lettersView.render(@sequence)
+    @game.on 'correct', (word) =>
+      @resultView.render word, true
 
-  isSolution: (word) ->
-    if word not in @words
-      return false
+    @game.on 'incorrect', (word) =>
+      @resultView.render word, false
 
-    for char in @sequence
-      if char not in word
-        return false
-      word = word[word.indexOf(char)..].toString()
-
-    true
+    @game.start()
 
   guess: (word) ->
-    if @isSolution(word)
-      @score(word.length)
-      @resultView.render(word, true)
-    else
-      @score(-2)
-      @resultView.render(word, false)
-    @newSequence()
-
-  score: (update) ->
-    @clock += update
-    @timerView.render(@clock)
+    @game.guess word
 
   render: ->
     template = require '../templates/game/layout.haml'
     @el.html(template())
 
   destroy: ->
-    clearInterval(@clockInterval)
+    @game.destroy()
 
   gameOver: ->
     @resultsView = new ResultsView(@el.find('.timer'))
-    @resultsView.render(@elapsed)
+    @resultsView.render(@game.elapsed)
+
 
 module.exports = GameController
