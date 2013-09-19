@@ -12,13 +12,14 @@ class Game
     @sequence
 
   isSolution: (word) ->
-    if word not in @words
-      false
+    candidate = word.toLowerCase().trim()
+    if candidate not in @words or not word?
+      return false
     
     for char in @sequence
-      if char not in word
-        false
-      word = word[word.indexOf(char)..].toString()
+      if char not in candidate
+        return false
+      candidate = candidate[candidate.indexOf(char)..].toString()
 
     true
 
