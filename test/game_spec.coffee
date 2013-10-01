@@ -66,3 +66,28 @@ describe 'Game Module', ->
     it 'should add a second to elapsed', ->
       @game.tick()
       expect(@game.elapsed).to.equal 1
+
+  describe 'Guessing', ->
+    beforeEach ->
+      @game = new Game ['stuff', 'stratify', 'junk'], ['stf']
+      @game.start()
+
+    it 'should keep a basic score', ->
+      @game.guess('stuff')
+      expect(@game.score).to.equal 50
+
+    it 'should add a multiplier on subsequent correct guesses', ->
+      @game.guess('stuff')
+      expect(@game.score).to.equal 50
+
+      @game.guess('stuff')
+      expect(@game.score).to.equal 110
+
+      @game.guess('stuff')
+      expect(@game.score).to.equal 180
+
+      @game.guess('shenanigans')
+      expect(@game.score).to.equal 180
+
+      @game.guess('stuff')
+      expect(@game.score).to.equal 230

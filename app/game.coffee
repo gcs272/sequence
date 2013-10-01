@@ -4,6 +4,8 @@ class Game
     @_events = {}
 
   start: ->
+    @multiplier = 1.0
+    @score = 0
     @clock = 60
     @elapsed = 0
     @clockInterval = setInterval @tick, 1000
@@ -25,10 +27,13 @@ class Game
   guess: (word) ->
     result = @isSolution word
     if result
+      @score += word.length * 10 * @multiplier
       @clock += word.length
+      @multiplier = if @multiplier > 3.0 then 3.0 else @multiplier + 0.2
       @trigger 'correct', word
     else
       @clock -= 2
+      @multiplier = 1.0
       @trigger 'incorrect', word
 
     @newSequence()

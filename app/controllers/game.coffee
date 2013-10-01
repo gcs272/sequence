@@ -1,3 +1,5 @@
+$ = require 'jqueryify'
+
 Game = require '../game.coffee'
 
 GuessView =     require '../views/guess.coffee'
