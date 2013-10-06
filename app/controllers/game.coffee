@@ -2,12 +2,13 @@ $ = require 'jqueryify'
 
 Game = require '../game.coffee'
 
-GuessView =     require '../views/guess.coffee'
-LettersView =   require '../views/letters.coffee'
-TimerView =     require '../views/timer.coffee'
-ResultView =    require '../views/result.coffee'
-ResultsView =   require '../views/results.coffee'
-ScoreView =     require '../views/score.coffee'
+GuessView =       require '../views/guess.coffee'
+LettersView =     require '../views/letters.coffee'
+MultiplierView =  require '../views/multiplier.coffee'
+TimerView =       require '../views/timer.coffee'
+ResultView =      require '../views/result.coffee'
+ResultsView =     require '../views/results.coffee'
+ScoreView =       require '../views/score.coffee'
 
 class GameController
   constructor: (@el) ->
@@ -30,6 +31,7 @@ class GameController
     @guessView.render()
     @el.find('input').focus()
 
+    @multiplierView = new MultiplierView(@el.find('.multiplier'))
     @resultView = new ResultView(@el.find('.result'))
     @scoreView = new ScoreView(@el.find('.score'))
     @lettersView = new LettersView(@el.find('.letters'), @)
@@ -50,10 +52,12 @@ class GameController
     @game.on 'correct', (word) =>
       @scoreView.render @game.score
       @resultView.render word, true
+      @multiplierView.render @game.multiplier
 
     @game.on 'incorrect', (word) =>
       @scoreView.render @game.score
       @resultView.render word, false
+      @multiplierView.render @game.multiplier
 
     @game.start()
 
