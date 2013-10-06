@@ -7,6 +7,7 @@ LettersView =   require '../views/letters.coffee'
 TimerView =     require '../views/timer.coffee'
 ResultView =    require '../views/result.coffee'
 ResultsView =   require '../views/results.coffee'
+ScoreView =     require '../views/score.coffee'
 
 class GameController
   constructor: (@el) ->
@@ -30,6 +31,7 @@ class GameController
     @el.find('input').focus()
 
     @resultView = new ResultView(@el.find('.result'))
+    @scoreView = new ScoreView(@el.find('.score'))
     @lettersView = new LettersView(@el.find('.letters'), @)
     @timerView = new TimerView(@el.find('.timer'))
 
@@ -46,9 +48,11 @@ class GameController
       @lettersView.render sequence
 
     @game.on 'correct', (word) =>
+      @scoreView.render @game.score
       @resultView.render word, true
 
     @game.on 'incorrect', (word) =>
+      @scoreView.render @game.score
       @resultView.render word, false
 
     @game.start()
