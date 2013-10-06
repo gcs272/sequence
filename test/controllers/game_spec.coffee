@@ -39,6 +39,14 @@ describe 'Game Controller', ->
     @controller.start()
     expect(@controller.game).to.exist
 
+  it 'should display results on a guess', ->
+    @controller.start()
+    @controller.guess('stuff')
+
+    expect($('.score').html()).to.contain 'Score: 50'
+    expect($('.result').html()).to.contain 'stuff +5s'
+    expect($('.multiplier').html()).to.contain '1.2x'
+
   describe 'When the game finished', ->
     it 'should show the score and elapsed time', ->
       @controller.start()
