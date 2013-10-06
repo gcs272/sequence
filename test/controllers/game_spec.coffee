@@ -38,3 +38,14 @@ describe 'Game Controller', ->
   it 'should start a game', ->
     @controller.start()
     expect(@controller.game).to.exist
+
+  describe 'When the game finished', ->
+    it 'should show the score and elapsed time', ->
+      @controller.start()
+      @controller.game.score = 100
+      @controller.game.elapsed = 90
+      @controller.gameOver()
+
+      html = $('.timer').html()
+      expect(html).to.contain 'Final Score: 100'
+      expect(html).to.contain '90 seconds'
