@@ -12,6 +12,7 @@
     "chai": "1.7.2",
     "jsdom": "0.8.6",
     "haml-coffee": "1.12.0",
-    "coffee-script": "1.6.3"
+    "coffee-script": "1.6.3",
+    "proxyquire": "0.5.1"
   }
 }

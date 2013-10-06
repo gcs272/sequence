@@ -1,19 +1,27 @@
 require '../setup.coffee'
 
-expect  = require('chai').expect
-$       = require('jqueryify')
-
-
-GameController = require 'controllers/game.coffee'
+$         = require 'jqueryify'
+expect    = require('chai').expect
+prequire  = require 'proxyquire'
 
 
 describe 'Game Controller', ->
   beforeEach ->
-    document.write """
-        <div class="container contents"></div>
-    """
+    class MockTimerView
+      constructor: (@el) ->
+      render: (remaining) ->
+
+    class MockLettersView
+      constructor: (@el) ->
+      render: (@sequence) ->
+
+    document.write """<div class="container contents"></div>"""
 
     deferred = $.Deferred()
+    GameController = prequire 'controllers/game.coffee',
+      '../views/timer.coffee': MockTimerView
+      '../views/letters.coffee': MockLettersView
+
     GameController.loadAssets = () ->
       deferred
 
