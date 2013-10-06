@@ -29,7 +29,7 @@ class Game
     if result
       @score += word.length * 10 * @multiplier
       @clock += word.length
-      @multiplier = if @multiplier > 3.0 then 3.0 else @multiplier + 0.2
+      @multiplier = if @multiplier >= 3.0 then 3.0 else @multiplier + 0.2
       @trigger 'correct', word
     else
       @clock -= 2

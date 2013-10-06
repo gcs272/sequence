@@ -91,3 +91,11 @@ describe 'Game Module', ->
 
       @game.guess('stuff')
       expect(@game.score).to.equal 230
+
+    it 'should cap the multiplier at 3', ->
+      @game.multiplier = 2.8
+      @game.guess('stuff')
+      expect(@game.multiplier).to.equal 3.0
+
+      @game.guess('stuff')
+      expect(@game.multiplier).to.equal 3.0
