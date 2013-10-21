@@ -5,10 +5,10 @@ Game = require '../game.coffee'
 GuessView =       require '../views/guess.coffee'
 LettersView =     require '../views/letters.coffee'
 MultiplierView =  require '../views/multiplier.coffee'
-TimerView =       require '../views/timer.coffee'
 ResultView =      require '../views/result.coffee'
 ResultsView =     require '../views/results.coffee'
 ScoreView =       require '../views/score.coffee'
+TimerView =       require '../views/timer.coffee'
 
 class GameController
   constructor: (@el) ->
@@ -47,7 +47,7 @@ class GameController
 
     @game.on 'sequence-start', (sequence) =>
       @timerView.render(@game.clock)
-      @lettersView.render sequence
+      @lettersView.render sequence, @game.getDifficulty(sequence)
 
     @game.on 'correct', (word) =>
       @scoreView.render @game.score

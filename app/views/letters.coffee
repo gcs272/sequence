@@ -1,9 +1,19 @@
 class LettersView
-  constructor: (@el, @parent) ->
+  constructor: (@el) ->
   
-  render: (sequence) ->
+  render: (sequence, difficulty) ->
     template = require '../templates/game/letters.haml'
-    @el.html template({sequence: sequence})
+
+    classname = switch
+      when difficulty < 4 then 'label-success'
+      when difficulty < 8 then 'label-warning'
+      else 'label-danger'
+
+    @el.html template
+      sequence: sequence
+      difficulty: difficulty
+      classname: classname
+
     @el.find('.letter').animate({'opacity': 1.0}, 250)
 
 module.exports = LettersView

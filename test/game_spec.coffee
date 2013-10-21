@@ -6,7 +6,7 @@ Game = require 'game.coffee'
 describe 'Game Module', ->
   describe 'After the game has started', ->
     beforeEach ->
-      @game = new Game ['stuff', 'stratify', 'junk'], ['stf']
+      @game = new Game ['stuff', 'stratify', 'junk'], {'stf': 2}
       @game.start()
 
     it 'should put 60 seconds on the clock', ->
@@ -43,7 +43,7 @@ describe 'Game Module', ->
 
   describe 'Every second', ->
     beforeEach ->
-      @game = new Game ['stuff', 'stratify', 'junk'], ['stf']
+      @game = new Game ['stuff', 'stratify', 'junk'], {'stf': 2}
       @game.start()
 
     it 'should reduce the clock', ->
@@ -69,7 +69,7 @@ describe 'Game Module', ->
 
   describe 'Guessing', ->
     beforeEach ->
-      @game = new Game ['stuff', 'stratify', 'junk'], ['stf']
+      @game = new Game ['stuff', 'stratify', 'junk'], {'stf': 2000}
       @game.start()
 
     it 'should keep a basic score', ->
@@ -99,3 +99,54 @@ describe 'Game Module', ->
 
       @game.guess('stuff')
       expect(@game.multiplier).to.equal 3.0
+
+  describe 'Score multiplication', ->
+    it 'should multiply a basic score', ->
+      @game = new Game ['stratify'], {'stf': 2000}
+      @game.start()
+
+      @game.guess('stratify')
+      expect(@game.score).to.equal 80
+
+    it 'should multiply out a difficult score', ->
+      @game = new Game ['stratify'], {'stf': 1}
+      @game.start()
+
+      @game.guess('stratify')
+      expect(@game.score).to.equal 800
+
+    it 'should stack difficulty and multipliers', ->
+      @game = new Game ['stratify'], {'stf': 1}
+      @game.start()
+      @game.multiplier = 3.0
+
+      @game.guess('stratify')
+      expect(@game.score).to.equal 2400
+
+  describe 'Difficulty', ->
+    beforeEach ->
+      @seqs =
+        'aaa': 4000
+        'aab': 250
+        'aac': 150
+        'aad': 20
+        'aae': 12
+        'aaf': 1
+      @game = new Game [], @seqs
+
+    it 'should grade from one to ten', ->
+      expect(@game.getDifficulty 'aaa').to.equal 1
+      expect(@game.getDifficulty 'aaf').to.equal 10
+
+    it 'should separate closely graded sequences', ->
+      aaa = @game.getDifficulty 'aaa'
+      aab = @game.getDifficulty 'aab'
+      aac = @game.getDifficulty 'aac'
+      aad = @game.getDifficulty 'aad'
+      aae = @game.getDifficulty 'aae'
+      aaf = @game.getDifficulty 'aaf'
+
+      expect(aaa).to.be.lessThan aab
+      expect(aab).to.be.lessThan aac
+      expect(aac).to.be.lessThan aad
+      expect(aad).to.be.lessThan aae

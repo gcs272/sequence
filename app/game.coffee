@@ -20,14 +20,21 @@ class Game
 
     @trigger('tick')
 
+  getDifficulty: (sequence) ->
+    quarts = [404.0, 208.0, 120.0, 73.0, 45.0, 28.0, 17.0, 10.0, 6.0, 0.0]
+    for i in [0..10]
+      if @sequences[sequence] > quarts[i]
+        return i + 1
+
   newSequence: ->
-    @sequence = @sequences[Math.floor(Math.random() * @sequences.length)]
+    seqs = Object.keys(@sequences)
+    @sequence = seqs[Math.floor(Math.random() * seqs.length)]
     @trigger 'sequence-start', @sequence
 
   guess: (word) ->
     result = @isSolution word
     if result
-      @score += word.length * 10 * @multiplier
+      @score += word.length * 10 * @multiplier * @getDifficulty(@sequence)
       @clock += word.length
       @multiplier = if @multiplier >= 3.0 then 3.0 else @multiplier + 0.2
       @trigger 'correct', word

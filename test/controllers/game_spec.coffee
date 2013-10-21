@@ -30,7 +30,8 @@ describe 'Game Controller', ->
 
     deferred.done()
     @controller.words = ['stuff', 'things', 'stratified']
-    @controller.sequences = ['stf']
+    @controller.sequences =
+      'stf': 2
 
   it 'should have jquery in tests', ->
     expect($.find('.contents')).to.have.length 1
