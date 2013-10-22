@@ -1,6 +1,6 @@
-class TimerView
-  constructor: (@el) ->
+View = require './view.coffee'
 
+class TimerView extends View
   render: (remaining) ->
     template = require '../templates/game/timer.haml'
     @el.html template({'remaining': remaining})
@@ -8,7 +8,7 @@ class TimerView
     @gauge = new Gauge(@el)
     @gauge.render(remaining / 60)
 
-class Gauge
+class Gauge extends View
   constructor: (@el) ->
   
   render: (value) ->

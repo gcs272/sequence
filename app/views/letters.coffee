@@ -1,6 +1,6 @@
-class LettersView
-  constructor: (@el) ->
-  
+View = require './view.coffee'
+
+class LettersView extends View
   render: (sequence, difficulty) ->
     template = require '../templates/game/letters.haml'
 

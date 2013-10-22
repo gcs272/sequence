@@ -1,6 +1,6 @@
-class MultiplierView
-  constructor: (@el) ->
+View = require './view.coffee'
 
+class MultiplierView extends View
   render: (multiplier) ->
     template = require '../templates/game/multiplier.haml'
 

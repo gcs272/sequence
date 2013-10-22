@@ -72,8 +72,10 @@ class GameController
     @game.destroy()
 
   gameOver: ->
-    @resultsView = new ResultsView(@el.find('.timer'))
+    @resultsView = new ResultsView(@el.find('.timer'), )
     @resultsView.render(@game.score, @game.elapsed)
+    @resultsView.on 'again', =>
+      @start()
 
 
 module.exports = GameController
