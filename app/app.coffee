@@ -1,8 +1,9 @@
 Router  = require('director').Router
 $       = require 'jqueryify'
 
-IndexController = require './controllers/index.coffee'
-GameController  = require './controllers/game.coffee'
+GameController          = require './controllers/game.coffee'
+IndexController         = require './controllers/index.coffee'
+InstructionsController  = require './controllers/instructions.coffee'
 
 
 class App
@@ -10,10 +11,13 @@ class App
     @el = $('.contents')
 
   index: =>
-    @activate(new IndexController(@el))
+    @activate new IndexController(@el)
 
   arcade: =>
-    @activate(new GameController(@el))
+    @activate new GameController(@el)
+
+  instructions: =>
+    @activate new InstructionsController(@el)
 
   activate: (controller) ->
     if @controller?.destroy?
@@ -28,5 +32,6 @@ $(() ->
   router = new Router
     '': app.index,
     '/arcade': app.arcade
+    '/instructions': app.instructions
   router.init('/')
 )

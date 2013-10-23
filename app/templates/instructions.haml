@@ -1,0 +1,33 @@
+.instructions
+  %h1 How to Play
+  %hr
+  .row
+    .col-md-4.col-xs-12
+      %h3 The Timer
+      %p A circular timer counts starts with sixty seconds and counts back.  Guessing a correct word will add a second to the clock for every letter in the word.  Guessing incorrectly subtracts two seconds
+    .col-md-4.col-xs-12
+      %img{src: '/img/timer.png'}
+  %hr
+  .row
+    .col-md-4.col-xs-12
+      %h3 The Sequence
+      %p The objective of any round is to find a word that contains the three letters from the sequence, in that order.  For example, 'pies' and 'happiness' would both work for the sequence 'pie'.  A difficulty tag provides an idea of the number of words that fit the given sequence.
+    .col-md-4.col-xs-12
+      %img{src: '/img/sequence.png'}
+  %hr
+  .row
+    .col-md-4.col-xs-12
+      %h3 The Guess
+      %p Enter a guess for the current sequence.  Simply hitting enter will skip the current sequence and subtract two seconds from the clock. 
+    .col-md-4.col-xs-12
+      %img{src: '/img/guess.png'}
+  %hr
+  .row
+    .col-md-4.col-xs-12
+      %h3 The Results
+      %p The current stats are shown under the guessing area.  To the left is the current score.  The middle is the result of your last guess, along with the seconds added or subtracted from the clock.  On the right is the current score multiplier, which goes up with subsequent correct guesses.  However, an incorrect guess resets the multiplier to zero. 
+    .col-md-4.col-xs-12
+      %img{src: '/img/results.png'}
+  %hr
+  %a.btn.btn-default{href: '/'} Back
+  %a.btn.btn-primary{href: '#/arcade'} New Game

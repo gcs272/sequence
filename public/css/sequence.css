@@ -22,3 +22,9 @@
   width: 400px;
   height: 200px;
 }
+
+.instructions img {
+  padding: 4px;
+  border: 1px solid #eee;
+  border-radius: 4px;
+}
