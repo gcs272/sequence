@@ -1,9 +1,30 @@
 .results
   .row
-    %span Game Over
-  .row
-    %h1="Final Score: #{@score}"
-  .row
-    %h3="#{@elapsed} seconds"
-  .row
-    %a.btn.btn-primary.again{href: '/#/arcade'}="Play Again"
+    .col-md-6.col-xs-12
+      .row
+        %h3 Game Over
+      .row
+        %h1="Final Score: #{@score}"
+      .row
+        %h3="Elapsed: #{@elapsed} seconds"
+      .row
+        %a.btn.btn-primary.again{href: '/#/arcade'}="Play Again"
+    .col-md-6.col-xs-12
+      .row
+        %h2 Best Word: 
+          - if @bestWord?
+            %span=@bestWord
+          - else
+            %span No correct answers
+      .row
+        %table.table.table-bordered
+          %thead
+            %tr
+              %th Correct
+              %th Incorrect
+              %th Skipped
+          %tbody
+            %tr
+              %td=@breakdown.correct
+              %td=@breakdown.incorrect
+              %td=@breakdown.skipped

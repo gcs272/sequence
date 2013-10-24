@@ -41,6 +41,44 @@ describe 'Game Module', ->
       @game.guess 'shenanigans'
       expect(@game.clock).to.equal 58
 
+    it 'should log guesses', ->
+      # Game history has a .push method, so treat it like a list in the test
+      @game.history = []
+      @game.guess 'stuff'
+
+      expect(@game.history).to.have.length 1
+      first = @game.history[0]
+      expect(first.sequence).to.equal 'stf'
+      expect(first.guess).to.equal 'stuff'
+
+      @game.sequence = 'str'
+      @game.guess 'nope'
+
+      expect(@game.history).to.have.length 2
+      second = @game.history[1]
+      expect(second.sequence).to.equal 'str'
+      expect(second.guess).to.equal 'nope'
+      expect(second.correct).to.equal false
+
+    it 'should be able to find the best guess', ->
+      @game.history.push
+        sequence: 'aaa'
+        guess: 'blarghiblargh'
+        correct: false
+      @game.history.push
+        sequence: 'stf'
+        guess: 'stuff'
+        correct: true
+      @game.history.push
+        sequence: 'stf'
+        guess: 'stratified'
+        correct: true
+
+      expect(@game.history.bestWord()).to.equal 'stratified'
+
+    it 'should find "none" is no guesses are correct', ->
+      expect(@game.history.bestWord()?).to.equal false
+
   describe 'Every second', ->
     beforeEach ->
       @game = new Game ['stuff', 'stratify', 'junk'], {'stf': 2}

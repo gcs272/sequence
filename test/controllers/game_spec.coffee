@@ -51,10 +51,10 @@ describe 'Game Controller', ->
   describe 'When the game finished', ->
     it 'should show the score and elapsed time', ->
       @controller.start()
-      @controller.game.score = 100
+      @controller.guess('stuff')
       @controller.game.elapsed = 90
       @controller.gameOver()
 
-      html = $('.timer').html()
-      expect(html).to.contain 'Final Score: 100'
+      html = $('.container').html()
+      expect(html).to.contain 'Final Score: 50'
       expect(html).to.contain '90 seconds'

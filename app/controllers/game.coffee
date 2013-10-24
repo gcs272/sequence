@@ -25,6 +25,7 @@ class GameController
     deferred
 
   start: ->
+    @el.find('.results').html('')
     @game = new Game @words, @sequences
 
     @guessView = new GuessView(@el.find('.word'), @)
@@ -72,8 +73,9 @@ class GameController
     @game.destroy()
 
   gameOver: ->
-    @resultsView = new ResultsView(@el.find('.timer'), )
-    @resultsView.render(@game.score, @game.elapsed)
+    @resultsView = new ResultsView(@el.find('.results'))
+    @resultsView.render @game.score, @game.elapsed, @game.history.bestWord(),
+      @game.history.breakdown()
     @resultsView.on 'again', =>
       @start()
 
