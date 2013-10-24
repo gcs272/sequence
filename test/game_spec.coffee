@@ -41,6 +41,24 @@ describe 'Game Module', ->
       @game.guess 'shenanigans'
       expect(@game.clock).to.equal 58
 
+    it 'should log guesses', ->
+      expect(@game.history).to.exist
+      @game.guess 'stuff'
+
+      expect(@game.history).to.have.length 1
+      first = @game.history[0]
+      expect(first.sequence).to.equal 'stf'
+      expect(first.guess).to.equal 'stuff'
+
+      @game.sequence = 'str'
+      @game.guess 'nope'
+
+      expect(@game.history).to.have.length 2
+      second = @game.history[1]
+      expect(second.sequence).to.equal 'str'
+      expect(second.guess).to.equal 'nope'
+      expect(second.correct).to.equal false
+
   describe 'Every second', ->
     beforeEach ->
       @game = new Game ['stuff', 'stratify', 'junk'], {'stf': 2}

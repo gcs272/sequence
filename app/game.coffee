@@ -4,6 +4,7 @@ class Game
     @_events = {}
 
   start: ->
+    @history = []
     @multiplier = 1.0
     @score = 0
     @clock = 60
@@ -37,10 +38,18 @@ class Game
       @score += word.length * 10 * @multiplier * @getDifficulty(@sequence)
       @clock += word.length
       @multiplier = if @multiplier >= 3.0 then 3.0 else @multiplier + 0.2
+      @history.push
+        sequence: @sequence
+        guess: word
+        correct: true
       @trigger 'correct', word
     else
       @clock -= 2
       @multiplier = 1.0
+      @history.push
+        sequence: @sequence
+        guess: word
+        correct: false
       @trigger 'incorrect', word
 
     @newSequence()
