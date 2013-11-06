@@ -1,4 +1,8 @@
 {
+  "name": "sequence",
+  "version": "0.0.1",
+  "author": "Graham Smith (http://github.com/gcs272/)",
+  "description": "a word game",
   "dependencies": {
     "director": "1.2.0",
     "coffeeify": "~0.5.1",
@@ -14,5 +18,8 @@
     "haml-coffee": "1.12.0",
     "coffee-script": "1.6.3",
     "proxyquire": "0.5.1"
+  },
+  "scripts": {
+    "test": "make test"
   }
 }
